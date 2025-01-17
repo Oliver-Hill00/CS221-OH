@@ -12,6 +12,13 @@ public class GridMonitor implements GridMonitorInterface
     private boolean[][] = dangerGrid;
 
     
+    public static void main(String[] args) 
+    {
+        
+    }
+    
+    
+    
     public GridMonitor(String filename) throws FileNotFoundException
     {
         loadGrid(filename);
