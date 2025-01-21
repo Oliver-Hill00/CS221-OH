@@ -1,10 +1,9 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class GridMonitor implements GridMonitorInterface {
-
+    //private instance variables
     private double[][] baseGrid;
     private double[][] surroundingSumGrid;
     private double[][] surroundingAvgGrid;
@@ -124,12 +123,54 @@ public class GridMonitor implements GridMonitorInterface {
 
     @Override
     public String toString() {
-        String result = "GridMonitor:\n";
-        result += "Base Grid:\n" + Arrays.deepToString(baseGrid) + "\n";
-        result += "Surrounding Sum Grid:\n" + Arrays.deepToString(getSurroundingSumGrid()) + "\n";
-        result += "Surrounding Average Grid:\n" + Arrays.deepToString(getSurroundingAvgGrid()) + "\n";
-        result += "Delta Grid:\n" + Arrays.deepToString(getDeltaGrid()) + "\n";
-        result += "Danger Grid:\n" + Arrays.deepToString(getDangerGrid()) + "\n";
-        return result;
+        StringBuilder result = new StringBuilder("GridMonitor:\n");
+
+        result.append("Base Grid:\n");
+        result.append(formatGrid(baseGrid));
+
+        result.append("Surrounding Sum Grid:\n");
+        result.append(formatGrid(getSurroundingSumGrid()));
+
+        result.append("Surrounding Average Grid:\n");
+        result.append(formatGrid(getSurroundingAvgGrid()));
+
+        result.append("Delta Grid:\n");
+        result.append(formatGrid(getDeltaGrid()));
+
+        result.append("Danger Grid:\n");
+        result.append(formatBooleanGrid(getDangerGrid()));
+
+        return result.toString();
     }
+
+    public String formatGrid(double[][] grid)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        for (double[] row : grid)
+        {
+            for (double value : row)
+            {
+                sb.append(String.format("%8.2f", value));
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
+    public String formatBooleanGrid(boolean[][] grid)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        for (boolean[] row : grid)
+        {
+            for (boolean value : row)
+            {
+                sb.append(String.format("%8s", value ? "DANGER" : "SAFE"));
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+    
 }
