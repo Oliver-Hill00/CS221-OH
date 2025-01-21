@@ -16,23 +16,23 @@ public class GridMonitor implements GridMonitorInterface {
     }
 
     private void loadGrid(String filename) throws FileNotFoundException {
-        Scanner scanner = new Scanner(new File(filename));
-        int rows = scanner.nextInt();
-        int cols = scanner.nextInt();
-        baseGrid = new double[rows][cols];
-
-        for (int i = 0; i < rows; i++) {
-            for (int k = 0; k < cols; k++) {
-                baseGrid[i][k] = scanner.nextDouble();
+        try (Scanner scanner = new Scanner(new File(filename))) {
+            int rows = scanner.nextInt();
+            int cols = scanner.nextInt();
+            baseGrid = new double[rows][cols];
+            
+            for (int i = 0; i < rows; i++) {
+                for (int k = 0; k < cols; k++) {
+                    baseGrid[i][k] = scanner.nextDouble();
+                }
             }
         }
-        scanner.close();
     }
-
+    @Override
     public double[][] getBaseGrid() {
         return baseGrid;
     }
-
+    @Override
     public double[][] getSurroundingSumGrid() {
         if (surroundingSumGrid == null) {
             calculateSurroundingSumGrid();
@@ -60,7 +60,7 @@ public class GridMonitor implements GridMonitorInterface {
         sum += baseGrid[row][Math.min(col + 1, baseGrid[0].length - 1)]; // Right
         return sum;
     }
-
+    @Override
     public double[][] getSurroundingAvgGrid() {
         if (surroundingAvgGrid == null) {
             calculateSurroundingAvgGrid();
@@ -79,7 +79,7 @@ public class GridMonitor implements GridMonitorInterface {
             }
         }
     }
-
+    @Override
     public double[][] getDeltaGrid() {
         if (deltaGrid == null) {
             calculateDeltaGrid();
@@ -98,7 +98,7 @@ public class GridMonitor implements GridMonitorInterface {
             }
         }
     }
-
+    @Override
     public boolean[][] getDangerGrid() {
         if (dangerGrid == null) {
             calculateDangerGrid();
