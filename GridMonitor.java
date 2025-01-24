@@ -172,9 +172,13 @@ public class GridMonitor implements GridMonitorInterface {
      * return deltaGrid
      */
     @Override
-    public double[][] getDeltaGrid() {
-        if (deltaGrid == null) {
-            if (surroundingAvgGrid == null) { // Ensure surroundingAvgGrid is calculated
+    public double[][] getDeltaGrid() 
+    {
+        if (deltaGrid == null) 
+        {
+            // Ensure surroundingAvgGrid is calculated
+            if (surroundingAvgGrid == null) 
+            { 
                 getSurroundingAvgGrid();
             }
             calculateDeltaGrid();
@@ -226,15 +230,29 @@ public class GridMonitor implements GridMonitorInterface {
     /*
      * defines dangerGrid using rows/cols in a double array grid
      * 
+     * The danger grid is computed based on the base grid, surrounding average grid,
+     * and delta grid
+     * 
      * rows/cols are defined by baseGrid.length method.
      */
-    private void calculateDangerGrid() {
+    private void calculateDangerGrid() 
+    {
+        if (surroundingAvgGrid == null) 
+        {
+            getSurroundingAvgGrid();
+        }
+        if (deltaGrid == null) 
+        {
+            getDeltaGrid();
+        }
         int rows = baseGrid.length;
         int cols = baseGrid[0].length;
         dangerGrid = new boolean[rows][cols];
 
-        for (int i = 0; i < rows; i++) {
-            for (int k = 0; k < cols; k++) {
+        for (int i = 0; i < rows; i++) 
+        {
+            for (int k = 0; k < cols; k++) 
+            {
                 double value = baseGrid[i][k];
                 double avg = surroundingAvgGrid[i][k];
                 double delta = deltaGrid[i][k];
@@ -250,7 +268,8 @@ public class GridMonitor implements GridMonitorInterface {
      * for danger levels or acceptable levels for the solar array
      */
     @Override
-    public String toString() {
+    public String toString() 
+    {
         StringBuilder result = new StringBuilder("GridMonitor:\n");
 
         result.append("Base Grid:\n");
